@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python test_fixes.py:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

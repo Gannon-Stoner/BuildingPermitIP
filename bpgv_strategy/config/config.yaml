@@ -1,0 +1,67 @@
+data:
+  start_date: "2000-01-01"
+  end_date: "2025-09-30"
+  futures_source: "yfinance"  # Options: "yfinance" or "databento"
+  futures_ticker: "ES=F"  # yfinance: ES=F, Databento: ES.FUT or CUS.FUT
+  databento_dataset: "GLBX.MDP3"  # CME Globex dataset
+  databento_api_key_env: "DATABENTO_API_KEY"  # Environment variable name for API key
+  cache_dir: "outputs/cache"
+  housing_data_path: "/Users/gannonstoner/Housing_Permit_IP"  # Path to cloned repository
+  permit_file: "PERMIT.csv"  # Main national permits file
+
+garch:
+  p: 1
+  q: 1
+  min_window: 60
+  refit_frequency: 1
+  max_history: 120  # months
+  scaling_factor: 100  # Scale returns for numerical stability
+
+signals:
+  top_quartile: 0.75
+  bottom_quartile: 0.25
+  min_history_for_percentiles: 60  # months
+
+position_sizing:
+  max_exposure: 0.10  # Maximum 10% of portfolio in one position (reduced for safety)
+  target_annual_vol: 0.015  # Target 1.5% annual volatility (very conservative)
+  min_scale_factor: 0.5
+  max_scale_factor: 0.8  # Reduced maximum scaling
+
+futures_contracts:
+  # Contract specifications for different futures
+  "ES=F":
+    name: "E-mini S&P 500"
+    multiplier: 50  # $50 per point
+    min_tick: 0.25
+    typical_margin: 12000
+  "ES.FUT":
+    name: "E-mini S&P 500 (Databento)"
+    multiplier: 50
+    min_tick: 0.25
+    typical_margin: 12000
+  "CUS.FUT":
+    name: "Case-Shiller Composite Housing Index"
+    multiplier: 250  # $250 per index point
+    min_tick: 0.10
+    typical_margin: 5000
+  "LAX.FUT":
+    name: "Case-Shiller Los Angeles"
+    multiplier: 250
+    min_tick: 0.10
+    typical_margin: 5000
+
+risk_management:
+  max_drawdown_pct: 0.05  # Tightened from 10% to 5%
+  max_position_loss_pct: 0.03  # Maximum 3% loss per position (stop loss)
+  unemployment_ma_window: 12
+  unemployment_filter_strength: 0.5  # 0.5 = reduce by 50%, 0 = neutralize completely, 1 = no filter
+
+backtest:
+  initial_capital: 1000000
+  transaction_cost: 0.0001  # 1bp
+  min_holding_period_days: 20  # Hold until next monthly signal
+
+outputs:
+  results_dir: "outputs"
+  plots_dir: "outputs/plots"

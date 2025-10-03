@@ -1,0 +1,65 @@
+2025-10-01 16:56:08 - bpgv_strategy - INFO - ============================================================
+2025-10-01 16:56:08 - bpgv_strategy - INFO - BPGV TRADING STRATEGY - EXECUTION STARTED
+2025-10-01 16:56:08 - bpgv_strategy - INFO - ============================================================
+2025-10-01 16:56:08 - bpgv_strategy - INFO - Loading configuration...
+2025-10-01 16:56:08 - bpgv_strategy - INFO - Configuration loaded: config/config.yaml
+2025-10-01 16:56:08 - bpgv_strategy - INFO - Date range: 2010-01-01 to 2025-09-30
+2025-10-01 16:56:08 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:56:08 - bpgv_strategy - INFO - STEP 1: FETCHING DATA
+2025-10-01 16:56:08 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:56:08 - bpgv_strategy - ERROR - Error during execution: 422 data_start_before_available_start
+`start` in query ('2010-01-01 00:00:00+00:00') was before the available start of dataset GLBX.MDP3 ('2010-06-06 00:00:00+00:00'). Try requesting with a later `start`.
+documentation: https://databento.com/docs/api-reference-historical/basics/datasets
+Traceback (most recent call last):
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/main.py", line 83, in main
+    all_data = data_fetcher.fetch_all_data(
+        start_date=config['data']['start_date'],
+        end_date=config['data'].get('end_date')
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 519, in fetch_all_data
+    data['futures'] = self.get_futures_data(
+                      ~~~~~~~~~~~~~~~~~~~~~^
+        self.config['data']['futures_ticker'],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        futures_start,
+        ^^^^^^^^^^^^^^
+        end_date
+        ^^^^^^^^
+    )
+    ^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 307, in get_futures_data
+    return self._get_futures_databento(ticker, start_date, end_date)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 383, in _get_futures_databento
+    df = databento_fetcher.get_futures_data(
+        ticker=ticker,
+    ...<2 lines>...
+        dataset=dataset
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/databento_fetcher.py", line 183, in get_futures_data
+    data = self.client.timeseries.get_range(
+        dataset=dataset,
+    ...<4 lines>...
+        end=end_date,
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/.venv/lib/python3.13/site-packages/databento/historical/api/timeseries.py", line 125, in get_range
+    return self._stream(
+           ~~~~~~~~~~~~^
+        url=self._base_url + ".get_range",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        path=path,
+        ^^^^^^^^^^
+    )
+    ^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/.venv/lib/python3.13/site-packages/databento/common/http.py", line 134, in _stream
+    check_http_error(response)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/.venv/lib/python3.13/site-packages/databento/common/http.py", line 249, in check_http_error
+    raise BentoClientError(
+    ...<5 lines>...
+    )
+databento.common.error.BentoClientError: 422 data_start_before_available_start
+`start` in query ('2010-01-01 00:00:00+00:00') was before the available start of dataset GLBX.MDP3 ('2010-06-06 00:00:00+00:00'). Try requesting with a later `start`.
+documentation: https://databento.com/docs/api-reference-historical/basics/datasets

@@ -1,0 +1,30 @@
+2025-09-30 16:51:42 - bpgv_strategy - INFO - ============================================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - BPGV TRADING STRATEGY - EXECUTION STARTED
+2025-09-30 16:51:42 - bpgv_strategy - INFO - ============================================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - Loading configuration...
+2025-09-30 16:51:42 - bpgv_strategy - INFO - Configuration loaded: config/config.yaml
+2025-09-30 16:51:42 - bpgv_strategy - INFO - Date range: 2020-01-01 to 2021-12-31
+2025-09-30 16:51:42 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - STEP 1: FETCHING DATA
+2025-09-30 16:51:42 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - Data fetched successfully:
+2025-09-30 16:51:42 - bpgv_strategy - INFO -   - Building permits: 24 months
+2025-09-30 16:51:42 - bpgv_strategy - INFO -   - Unemployment: 24 months
+2025-09-30 16:51:42 - bpgv_strategy - INFO -   - Futures data: 504 days
+2025-09-30 16:51:42 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - STEP 2: GARCH MODEL & VOLATILITY FORECASTING
+2025-09-30 16:51:42 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:51:42 - bpgv_strategy - INFO - Generating volatility forecasts using walk-forward analysis...
+2025-09-30 16:51:42 - bpgv_strategy - ERROR - Error during execution: Insufficient data for rolling forecast: 24 < 60
+Traceback (most recent call last):
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/main.py", line 112, in main
+    volatility_forecasts = garch_forecaster.rolling_forecast(
+        permit_growth,
+        window=config['garch']['max_history'],
+        refit_freq=config['garch']['refit_frequency']
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/models/garch_forecaster.py", line 160, in rolling_forecast
+    raise ValueError(f"Insufficient data for rolling forecast: {len(returns)} < {min_train_size}")
+ValueError: Insufficient data for rolling forecast: 24 < 60

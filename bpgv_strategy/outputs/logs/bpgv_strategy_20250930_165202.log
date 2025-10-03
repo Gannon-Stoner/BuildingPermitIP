@@ -1,0 +1,50 @@
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ============================================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - BPGV TRADING STRATEGY - EXECUTION STARTED
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ============================================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Loading configuration...
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Configuration loaded: config/config.yaml
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Date range: 2015-01-01 to 2021-12-31
+2025-09-30 16:52:02 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - STEP 1: FETCHING DATA
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Data fetched successfully:
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Building permits: 84 months
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Unemployment: 84 months
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Futures data: 1760 days
+2025-09-30 16:52:02 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - STEP 2: GARCH MODEL & VOLATILITY FORECASTING
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Generating volatility forecasts using walk-forward analysis...
+2025-09-30 16:52:02 - bpgv_strategy - INFO - GARCH model diagnostics:
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Persistence: 0.698
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Log-likelihood: -224.68
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - AIC: 455.37
+2025-09-30 16:52:02 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - STEP 3: SIGNAL GENERATION
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Signal statistics:
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Long signals: 0
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Short signals: 0
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Neutral periods: 24
+2025-09-30 16:52:02 - bpgv_strategy - INFO -   - Filtered by regime: 0
+2025-09-30 16:52:02 - bpgv_strategy - INFO - 
+========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - STEP 4: BACKTESTING
+2025-09-30 16:52:02 - bpgv_strategy - INFO - ========================================
+2025-09-30 16:52:02 - bpgv_strategy - INFO - Running backtest with initial capital: $1,000,000
+2025-09-30 16:52:02 - bpgv_strategy - ERROR - Error during execution: Cannot compare tz-naive and tz-aware timestamps
+Traceback (most recent call last):
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/main.py", line 160, in main
+    backtest_results = backtester.run(
+        signals_df=signals,
+        price_data=all_data['futures']
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/backtest/engine.py", line 59, in run
+    backtest_data = self._prepare_backtest_data(signals_df, price_data)
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/backtest/engine.py", line 292, in _prepare_backtest_data
+    start_date = max(signals_df.index.min(), price_data.index.min())
+  File "pandas/_libs/tslibs/timestamps.pyx", line 387, in pandas._libs.tslibs.timestamps._Timestamp.__richcmp__
+TypeError: Cannot compare tz-naive and tz-aware timestamps

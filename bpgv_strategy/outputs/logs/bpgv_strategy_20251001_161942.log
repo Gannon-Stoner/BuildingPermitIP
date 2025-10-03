@@ -1,0 +1,55 @@
+2025-10-01 16:19:42 - bpgv_strategy - INFO - ============================================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - BPGV TRADING STRATEGY - EXECUTION STARTED
+2025-10-01 16:19:42 - bpgv_strategy - INFO - ============================================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - Loading configuration...
+2025-10-01 16:19:42 - bpgv_strategy - INFO - Configuration loaded: config/config.yaml
+2025-10-01 16:19:42 - bpgv_strategy - INFO - Date range: 2010-01-01 to 2025-09-30
+2025-10-01 16:19:42 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - STEP 1: FETCHING DATA
+2025-10-01 16:19:42 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - Data fetched successfully:
+2025-10-01 16:19:42 - bpgv_strategy - INFO -   - Building permits: 188 months
+2025-10-01 16:19:42 - bpgv_strategy - INFO -   - Unemployment: 189 months
+2025-10-01 16:19:42 - bpgv_strategy - INFO -   - Futures data: 3960 days
+2025-10-01 16:19:42 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - STEP 2: GARCH MODEL & VOLATILITY FORECASTING
+2025-10-01 16:19:42 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:19:42 - bpgv_strategy - INFO - Generating volatility forecasts using walk-forward analysis...
+2025-10-01 16:19:43 - bpgv_strategy - INFO - GARCH model diagnostics:
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Persistence: 0.699
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Log-likelihood: -715.64
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - AIC: 1437.28
+2025-10-01 16:19:43 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - STEP 3: SIGNAL GENERATION
+2025-10-01 16:19:43 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - Signal statistics:
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Long signals: 36
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Short signals: 24
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Neutral periods: 68
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Filtered by regime: 0
+2025-10-01 16:19:43 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - STEP 4: BACKTESTING
+2025-10-01 16:19:43 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - Running backtest with initial capital: $1,000,000
+2025-10-01 16:19:43 - bpgv_strategy - INFO - Trade statistics:
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Total trades: 31
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Win rate: 64.5%
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Profit factor: 1.25
+2025-10-01 16:19:43 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - STEP 5: PERFORMANCE ANALYSIS
+2025-10-01 16:19:43 - bpgv_strategy - INFO - ========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - Performance metrics:
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Total Return: 2.90%
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Annual Return: 0.27%
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Sharpe Ratio: 0.04
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Max Drawdown: -8.56%
+2025-10-01 16:19:43 - bpgv_strategy - INFO -   - Calmar Ratio: 0.03
+2025-10-01 16:19:43 - bpgv_strategy - INFO - 
+========================================
+2025-10-01 16:19:43 - bpgv_strategy - INFO - STEP 6: GENERATING VISUALIZATIONS
+2025-10-01 16:19:43 - bpgv_strategy - INFO - ========================================
