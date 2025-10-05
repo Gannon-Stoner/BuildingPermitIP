@@ -244,11 +244,99 @@ class DatabentoFetcher:
         # Sort by date
         df_clean = df_clean.sort_index()
 
+        # Check for duplicate dates (data quality issue)
+        duplicate_dates = df_clean.index.duplicated(keep=False)
+        if duplicate_dates.any():
+            n_duplicates = duplicate_dates.sum()
+            logger.warning(f"Found {n_duplicates} duplicate date entries in Databento data. Deduplicating...")
+
+            # Convert index to date (remove time component) and group by date
+            df_clean['date'] = df_clean.index.date
+
+            # For daily OHLCV, take the last entry for each date
+            # (assuming last = end of day values)
+            df_clean = df_clean.groupby('date').agg({
+                'open': 'first',    # First open of the day
+                'high': 'max',      # Highest high
+                'low': 'min',       # Lowest low
+                'close': 'last',    # Last close of the day
+                'volume': 'sum'     # Total volume
+            })
+
+            # Convert date back to datetime index
+            df_clean.index = pd.to_datetime(df_clean.index)
+
+        # Validate price data - remove negative or zero prices
+        price_cols = ['open', 'high', 'low', 'close']
+        for col in price_cols:
+            if col in df_clean.columns:
+                invalid_mask = (df_clean[col] <= 0)
+                if invalid_mask.any():
+                    n_invalid = invalid_mask.sum()
+                    logger.warning(f"Found {n_invalid} invalid (<=0) values in {col}. Removing affected rows...")
+                    df_clean = df_clean[~invalid_mask]
+
+        # Additional validation: Remove unrealistically low prices for housing futures
+        # Case-Shiller housing index futures should be in range 100-500 based on historical data
+        if 'close' in df_clean.columns and len(df_clean) > 0:
+            # Calculate median price to determine expected range
+            median_price = df_clean['close'].median()
+
+            # If median suggests housing futures (typically 150-400), apply stricter validation
+            if median_price > 100:
+                min_valid_price = 100  # Housing futures shouldn't be below 100
+                low_price_mask = df_clean['close'] < min_valid_price
+
+                if low_price_mask.any():
+                    n_low = low_price_mask.sum()
+                    low_prices = df_clean.loc[low_price_mask, 'close'].values
+                    logger.warning(f"Found {n_low} unrealistically low prices (< {min_valid_price}). "
+                                 f"Values: {low_prices[:10]}. Removing affected rows...")
+                    df_clean = df_clean[~low_price_mask]
+
+        # Statistical outlier detection using IQR method
+        if 'close' in df_clean.columns and len(df_clean) > 10:
+            Q1 = df_clean['close'].quantile(0.25)
+            Q3 = df_clean['close'].quantile(0.75)
+            IQR = Q3 - Q1
+
+            # Define outliers as values outside 3 * IQR from Q1/Q3
+            lower_bound = Q1 - 3 * IQR
+            upper_bound = Q3 + 3 * IQR
+
+            outlier_mask = (df_clean['close'] < lower_bound) | (df_clean['close'] > upper_bound)
+            if outlier_mask.any():
+                n_outliers = outlier_mask.sum()
+                outlier_prices = df_clean.loc[outlier_mask, 'close'].values
+                logger.warning(f"Found {n_outliers} statistical outliers (outside 3*IQR range [{lower_bound:.2f}, {upper_bound:.2f}]). "
+                             f"Outlier values: {outlier_prices[:10]}. Removing affected rows...")
+                df_clean = df_clean[~outlier_mask]
+
+        # Check for extreme price changes (>50% in one day) which might indicate data errors
+        if 'close' in df_clean.columns and len(df_clean) > 1:
+            price_changes = df_clean['close'].pct_change().abs()
+            extreme_changes = price_changes > 0.5
+            if extreme_changes.any():
+                n_extreme = extreme_changes.sum()
+                logger.warning(f"Found {n_extreme} extreme price changes (>50%). This may indicate data quality issues.")
+                # Log the dates with extreme changes for investigation
+                extreme_dates = df_clean.index[extreme_changes].tolist()
+                logger.warning(f"Dates with extreme changes: {extreme_dates[:5]}")  # Show first 5
+                # Remove rows with extreme changes
+                df_clean = df_clean[~extreme_changes]
+
         # Forward fill any missing data
         df_clean = df_clean.ffill()
 
         # Drop any remaining NaNs
         df_clean = df_clean.dropna()
+
+        # Final validation
+        if df_clean.empty:
+            logger.error("No valid data remaining after cleaning")
+        else:
+            logger.info(f"Cleaned data: {len(df_clean)} days, "
+                       f"price range: ${df_clean['close'].min():.2f} - ${df_clean['close'].max():.2f}")
 
         return df_clean
 

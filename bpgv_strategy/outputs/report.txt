@@ -4,38 +4,38 @@ BPGV TRADING STRATEGY - PERFORMANCE REPORT
 
 PERFORMANCE METRICS
 ----------------------------------------
-Total Return:          1.27%
-Annual Return (CAGR):  0.12%
-Annual Volatility:     1.39%
-Sharpe Ratio:          0.09
-Sortino Ratio:         0.06
-Maximum Drawdown:      -1.88%
-Calmar Ratio:          0.06
+Total Return:          2.07%
+Annual Return (CAGR):  3.50%
+Annual Volatility:     8.06%
+Sharpe Ratio:          0.43
+Sortino Ratio:         0.50
+Maximum Drawdown:      -2.27%
+Calmar Ratio:          1.55
 
 RISK METRICS
 ----------------------------------------
-Value at Risk (95%):   -0.05%
-Conditional VaR (95%): -0.17%
-Skewness:              0.73
-Kurtosis:              70.04
+Value at Risk (95%):   -1.07%
+Conditional VaR (95%): -1.24%
+Skewness:              -0.23
+Kurtosis:              1.33
 
 TRADING STATISTICS
 ----------------------------------------
-Total Trades:          31
-Win Rate:              24.31%
-Avg Daily Win:         0.05%
-Avg Daily Loss:        -0.05%
-Profit Factor:         1.04
-Total Trading Days:    2661
+Total Trades:          22
+Win Rate:              32.67%
+Avg Daily Win:         0.50%
+Avg Daily Loss:        -0.49%
+Profit Factor:         1.10
+Total Trading Days:    150
 
 TRADE DETAILS
 ----------------------------------------
-Long Trades:           12
-Short Trades:          19
-Average Win:           $2,174.56
-Average Loss:          $-2,638.11
-Largest Win:           $7,758.60
-Largest Loss:          $-7,778.23
-Total Costs:           $198.04
+Long Trades:           10
+Short Trades:          12
+Average Win:           $3,506.80
+Average Loss:          $-5,858.79
+Largest Win:           $10,779.67
+Largest Loss:          $-8,418.65
+Total Costs:           $251.55
 
 ============================================================

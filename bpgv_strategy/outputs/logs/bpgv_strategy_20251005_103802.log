@@ -1,0 +1,37 @@
+2025-10-05 10:38:02 - bpgv_strategy - INFO - ============================================================
+2025-10-05 10:38:02 - bpgv_strategy - INFO - BPGV TRADING STRATEGY - EXECUTION STARTED
+2025-10-05 10:38:02 - bpgv_strategy - INFO - ============================================================
+2025-10-05 10:38:02 - bpgv_strategy - INFO - Loading configuration...
+2025-10-05 10:38:02 - bpgv_strategy - INFO - Configuration loaded: config/config.yaml
+2025-10-05 10:38:02 - bpgv_strategy - INFO - Date range: 2010-01-01 to 2025-09-30
+2025-10-05 10:38:02 - bpgv_strategy - INFO - 
+========================================
+2025-10-05 10:38:02 - bpgv_strategy - INFO - STEP 1: FETCHING DATA
+2025-10-05 10:38:02 - bpgv_strategy - INFO - ========================================
+2025-10-05 10:38:02 - bpgv_strategy - ERROR - Error during execution: Databento API key not found in environment variable 'db-4VQNEVwtTee7FenLqWX3EUSX5Mj63'. Sign up at https://databento.com and set your API key.
+Traceback (most recent call last):
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/main.py", line 83, in main
+    all_data = data_fetcher.fetch_all_data(
+        start_date=config['data']['start_date'],
+        end_date=config['data'].get('end_date')
+    )
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 530, in fetch_all_data
+    data['futures'] = self.get_futures_data(
+                      ~~~~~~~~~~~~~~~~~~~~~^
+        self.config['data']['futures_ticker'],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        futures_start,
+        ^^^^^^^^^^^^^^
+        end_date
+        ^^^^^^^^
+    )
+    ^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 307, in get_futures_data
+    return self._get_futures_databento(ticker, start_date, end_date)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/fetchers.py", line 377, in _get_futures_databento
+    databento_fetcher = DatabentoFetcher(self.config, self.cache_dir)
+  File "/Users/gannonstoner/PycharmProjects/BuildingPermitProject/bpgv_strategy/data/databento_fetcher.py", line 45, in __init__
+    raise ValueError(f"Databento API key not found in environment variable '{api_key_env}'. "
+                   f"Sign up at https://databento.com and set your API key.")
+ValueError: Databento API key not found in environment variable 'db-4VQNEVwtTee7FenLqWX3EUSX5Mj63'. Sign up at https://databento.com and set your API key.
